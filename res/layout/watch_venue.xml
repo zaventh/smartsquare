@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    
+    android:layout_width="@dimen/smart_watch_control_width"
+    android:layout_height="@dimen/smart_watch_control_height">
+
+    <ImageView
+        android:layout_width="@dimen/smart_watch_control_width"
+        android:layout_height="@dimen/smart_watch_control_height"
+        android:layout_centerInParent="true" />
+
+    <com.sonyericsson.extras.liveware.extension.util.AefTextView
+        android:id="@+id/txtStarted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Starbucks"
+        android:textColor="@color/smart_watch_text_color_grey"
+        android:textSize="13px" />
+
+
+</RelativeLayout>

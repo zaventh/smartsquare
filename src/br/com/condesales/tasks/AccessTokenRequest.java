@@ -53,7 +53,7 @@ public class AccessTokenRequest extends AsyncTask<String, Integer, String> {
 						+ "&client_secret="
 						+ FoursquareConstants.CLIENT_SECRET
 						+ "&grant_type=authorization_code"
-						+ "&redirect_uri=http://localhost:8888"
+						+ "&redirect_uri=" + FoursquareConstants.CALLBACK_URL
 						+ "&code="
 						+ code);
 

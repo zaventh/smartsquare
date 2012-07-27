@@ -2,16 +2,23 @@ package com.steelthorn.android.watch.smartsquare;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import br.com.condesales.EasyFoursquareAsync;
+import br.com.condesales.listeners.AccessTokenRequestListener;
 
 public class MainActivity extends Activity
 {
+	private static final String TAG = "MainActivity";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		EasyFoursquareAsync fsq = new EasyFoursquareAsync(this);
+		fsq.requestAccess(new FoursquareAccessCallback());
 	}
 
 	@Override
@@ -21,4 +28,19 @@ public class MainActivity extends Activity
 		return true;
 	}
 
+	private static class FoursquareAccessCallback implements AccessTokenRequestListener
+	{
+		@Override
+		public void onError(String errorMsg)
+		{
+			Log.e(TAG, "Couldn't authenticate to foursquare");
+		}
+
+		@Override
+		public void onAccessGrant(String accessToken)
+		{
+			Log.i(TAG, "Successfully authenticated to foursquare");
+			Log.i(TAG, "Key: " + accessToken);
+		}
+	}
 }

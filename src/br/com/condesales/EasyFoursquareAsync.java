@@ -1,5 +1,7 @@
 package br.com.condesales;
 
+import java.net.URLEncoder;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
