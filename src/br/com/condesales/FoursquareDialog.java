@@ -1,8 +1,8 @@
 package br.com.condesales;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -45,11 +45,11 @@ public class FoursquareDialog extends Dialog
 	private WebView mWebView;
 	private LinearLayout mContent;
 	private TextView mTitle;
-	private Activity mActivity;
+	private Context mActivity;
 
 	private static final String TAG = "Foursquare-WebView";
 
-	public FoursquareDialog(Activity activity, String url, AccessTokenRequestListener listener)
+	public FoursquareDialog(Context activity, String url, AccessTokenRequestListener listener)
 	{
 		super(activity);
 		mActivity = activity;

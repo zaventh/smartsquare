@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.listeners.GetCheckInsListener;
@@ -24,8 +25,7 @@ import com.google.gson.Gson;
 public class GetCheckInsRequest extends
 		AsyncTask<String, Integer, ArrayList<Checkin>> {
 
-	private Activity mActivity;
-	private ProgressDialog mProgress;
+	private Context mActivity;
 	private GetCheckInsListener mListener;
 	private String mUserID = "self";// default value
 
@@ -37,7 +37,7 @@ public class GetCheckInsRequest extends
 	 * @param listener
 	 *            the listener where the async request shoud respont to
 	 */
-	public GetCheckInsRequest(Activity activity, GetCheckInsListener listener) {
+	public GetCheckInsRequest(Context activity, GetCheckInsListener listener) {
 		mActivity = activity;
 		mListener = listener;
 	}
@@ -52,7 +52,7 @@ public class GetCheckInsRequest extends
 	 * @param userID
 	 *            The id from user to get information
 	 */
-	public GetCheckInsRequest(Activity activity, GetCheckInsListener listener,
+	public GetCheckInsRequest(Context activity, GetCheckInsListener listener,
 			String userID) {
 		mActivity = activity;
 		mListener = listener;
@@ -65,7 +65,7 @@ public class GetCheckInsRequest extends
 	 * @param activity
 	 *            the context to show progress
 	 */
-	public GetCheckInsRequest(Activity activity) {
+	public GetCheckInsRequest(Context activity) {
 		mActivity = activity;
 	}
 
@@ -77,17 +77,13 @@ public class GetCheckInsRequest extends
 	 * @param userID
 	 *            The id from user to get information
 	 */
-	public GetCheckInsRequest(Activity activity, String userID) {
+	public GetCheckInsRequest(Context activity, String userID) {
 		mActivity = activity;
 		mUserID = userID;
 	}
 
 	@Override
 	protected void onPreExecute() {
-		mProgress = new ProgressDialog(mActivity);
-		mProgress.setCancelable(false);
-		mProgress.setMessage("Getting Checkins ...");
-		mProgress.show();
 		super.onPreExecute();
 	}
 
@@ -138,7 +134,6 @@ public class GetCheckInsRequest extends
 
 	@Override
 	protected void onPostExecute(ArrayList<Checkin> checkinsList) {
-		mProgress.dismiss();
 		if (mListener != null)
 			mListener.onGotCheckIns(checkinsList);
 		super.onPostExecute(checkinsList);

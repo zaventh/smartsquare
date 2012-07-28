@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.listeners.VenuesHistoryListener;
@@ -23,8 +24,7 @@ import com.google.gson.Gson;
 public class GetUserVenuesHistoryRequest extends
 		AsyncTask<String, Integer, ArrayList<Venues>> {
 
-	private Activity mActivity;
-	private ProgressDialog mProgress;
+	private Context mActivity;
 	private VenuesHistoryListener mListener;
 	private String mUserID = "self";// default value
 
@@ -36,7 +36,7 @@ public class GetUserVenuesHistoryRequest extends
 	 * @param listener
 	 *            the listener where the async request shoud respont to
 	 */
-	public GetUserVenuesHistoryRequest(Activity activity, VenuesHistoryListener listener) {
+	public GetUserVenuesHistoryRequest(Context activity, VenuesHistoryListener listener) {
 		mActivity = activity;
 		mListener = listener;
 	}
@@ -51,7 +51,7 @@ public class GetUserVenuesHistoryRequest extends
 	 * @param userID
 	 *            The id from user to get information
 	 */
-	public GetUserVenuesHistoryRequest(Activity activity, VenuesHistoryListener listener,
+	public GetUserVenuesHistoryRequest(Context activity, VenuesHistoryListener listener,
 			String userID) {
 		mActivity = activity;
 		mListener = listener;
@@ -64,7 +64,7 @@ public class GetUserVenuesHistoryRequest extends
 	 * @param activity
 	 *            the context to show progress
 	 */
-	public GetUserVenuesHistoryRequest(Activity activity) {
+	public GetUserVenuesHistoryRequest(Context activity) {
 		mActivity = activity;
 	}
 
@@ -76,19 +76,11 @@ public class GetUserVenuesHistoryRequest extends
 	 * @param userID
 	 *            The id from user to get information
 	 */
-	public GetUserVenuesHistoryRequest(Activity activity, String userID) {
+	public GetUserVenuesHistoryRequest(Context activity, String userID) {
 		mActivity = activity;
 		mUserID = userID;
 	}
 
-	@Override
-	protected void onPreExecute() {
-		mProgress = new ProgressDialog(mActivity);
-		mProgress.setCancelable(false);
-		mProgress.setMessage("Getting Venues History ...");
-		mProgress.show();
-		super.onPreExecute();
-	}
 
 	@Override
 	protected ArrayList<Venues> doInBackground(String... params) {
@@ -137,7 +129,6 @@ public class GetUserVenuesHistoryRequest extends
 
 	@Override
 	protected void onPostExecute(ArrayList<Venues> friendsList) {
-		mProgress.dismiss();
 		if (mListener != null)
 			mListener.onGotVenuesHistory(friendsList);
 		super.onPostExecute(friendsList);

@@ -2,13 +2,15 @@ package br.com.condesales.tasks.venues;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
-import android.app.Activity;
+
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.listeners.FoursquareVenueDetailsResquestListener;
@@ -19,32 +21,21 @@ import com.google.gson.Gson;
 public class FoursquareVenueDetailsRequest extends
 		AsyncTask<String, Integer, Venue> {
 
-	private Activity mActivity;
-	private ProgressDialog mProgress;
+	private Context mActivity;
 	private FoursquareVenueDetailsResquestListener mListener;
 	private String mVenueID;
 
-	public FoursquareVenueDetailsRequest(Activity activity,
+	public FoursquareVenueDetailsRequest(Context activity,
 			FoursquareVenueDetailsResquestListener listener, String venueID) {
 		mActivity = activity;
 		mListener = listener;
 		mVenueID = venueID;
 	}
 
-	public FoursquareVenueDetailsRequest(Activity activity, String venueID) {
+	public FoursquareVenueDetailsRequest(Context activity, String venueID) {
 		mActivity = activity;
 		mVenueID = venueID;
 	}
-
-	@Override
-	protected void onPreExecute() {
-		mProgress = new ProgressDialog(mActivity);
-		mProgress.setCancelable(false);
-		mProgress.setMessage("Getting venue details ...");
-		mProgress.show();
-		super.onPreExecute();
-	}
-
 	@Override
 	protected Venue doInBackground(String... params) {
 
@@ -86,7 +77,6 @@ public class FoursquareVenueDetailsRequest extends
 
 	@Override
 	protected void onPostExecute(Venue venues) {
-		mProgress.dismiss();
 		if (mListener != null)
 			mListener.onVenueDetailFetched(venues);
 		super.onPostExecute(venues);

@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -19,15 +20,15 @@ import br.com.condesales.listeners.ImageRequestListener;
 public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 
 	private ImageRequestListener mListener;
-	private Activity mActivity;
+	private Context mActivity;
 	private final String FILE_NAME = "foursquareUser";
 
-	public UserImageRequest(Activity activity, ImageRequestListener listener) {
+	public UserImageRequest(Context activity, ImageRequestListener listener) {
 		mListener = listener;
 		mActivity = activity;
 	}
 
-	public UserImageRequest(Activity activity) {
+	public UserImageRequest(Context activity) {
 		mActivity = activity;
 	}
 

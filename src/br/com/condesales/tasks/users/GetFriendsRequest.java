@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.listeners.FriendsListener;
@@ -23,8 +24,7 @@ import com.google.gson.Gson;
 public class GetFriendsRequest extends
 		AsyncTask<String, Integer, ArrayList<User>> {
 
-	private Activity mActivity;
-	private ProgressDialog mProgress;
+	private Context mActivity;
 	private FriendsListener mListener;
 	private String mUserID = "self";// default value
 
@@ -36,7 +36,7 @@ public class GetFriendsRequest extends
 	 * @param listener
 	 *            the listener where the async request shoud respont to
 	 */
-	public GetFriendsRequest(Activity activity, FriendsListener listener) {
+	public GetFriendsRequest(Context activity, FriendsListener listener) {
 		mActivity = activity;
 		mListener = listener;
 	}
@@ -51,7 +51,7 @@ public class GetFriendsRequest extends
 	 * @param userID
 	 *            The id from user to get information
 	 */
-	public GetFriendsRequest(Activity activity, FriendsListener listener,
+	public GetFriendsRequest(Context activity, FriendsListener listener,
 			String userID) {
 		mActivity = activity;
 		mListener = listener;
@@ -64,7 +64,7 @@ public class GetFriendsRequest extends
 	 * @param activity
 	 *            the context to show progress
 	 */
-	public GetFriendsRequest(Activity activity) {
+	public GetFriendsRequest(Context activity) {
 		mActivity = activity;
 	}
 
@@ -76,18 +76,9 @@ public class GetFriendsRequest extends
 	 * @param userID
 	 *            The id from user to get information
 	 */
-	public GetFriendsRequest(Activity activity, String userID) {
+	public GetFriendsRequest(Context activity, String userID) {
 		mActivity = activity;
 		mUserID = userID;
-	}
-
-	@Override
-	protected void onPreExecute() {
-		mProgress = new ProgressDialog(mActivity);
-		mProgress.setCancelable(false);
-		mProgress.setMessage("Getting Friends ...");
-		mProgress.show();
-		super.onPreExecute();
 	}
 
 	@Override
@@ -138,7 +129,6 @@ public class GetFriendsRequest extends
 
 	@Override
 	protected void onPostExecute(ArrayList<User> friendsList) {
-		mProgress.dismiss();
 		if (mListener != null)
 			mListener.onGotFriends(friendsList);
 		super.onPostExecute(friendsList);

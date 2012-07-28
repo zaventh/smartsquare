@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.CheckInCriteria;
@@ -33,11 +34,11 @@ import br.com.condesales.tasks.venues.FoursquareVenuesNearbyRequest;
 public class EasyFoursquare
 {
 
-	private Activity mActivity;
+	private Context mActivity;
 	private FoursquareDialog mDialog;
 	private String mAccessToken = "";
 
-	public EasyFoursquare(Activity activity)
+	public EasyFoursquare(Context activity)
 	{
 		mActivity = activity;
 	}

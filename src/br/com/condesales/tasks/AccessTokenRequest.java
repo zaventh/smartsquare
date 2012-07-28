@@ -9,8 +9,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,11 +20,11 @@ import br.com.condesales.listeners.AccessTokenRequestListener;
 
 public class AccessTokenRequest extends AsyncTask<String, Integer, String> {
 
-	private Activity mActivity;
+	private Context mActivity;
 	private ProgressDialog mProgress;
 	private AccessTokenRequestListener mListener;
 
-	public AccessTokenRequest(Activity activity, AccessTokenRequestListener listener) {
+	public AccessTokenRequest(Context activity, AccessTokenRequestListener listener) {
 		mActivity = activity;
 		mListener = listener;
 	}

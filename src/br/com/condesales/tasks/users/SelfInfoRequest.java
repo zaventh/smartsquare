@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -23,8 +24,7 @@ import com.google.gson.Gson;
 
 public class SelfInfoRequest extends AsyncTask<String, Integer, User> {
 
-	private Activity mActivity;
-	private ProgressDialog mProgress;
+	private Context mActivity;
 	private UserInfoRequestListener mListener;
 
 	public SelfInfoRequest(Activity activity, UserInfoRequestListener listener) {
@@ -32,17 +32,8 @@ public class SelfInfoRequest extends AsyncTask<String, Integer, User> {
 		mListener = listener;
 	}
 
-	public SelfInfoRequest(Activity activity) {
-		mActivity = activity;
-	}
-
-	@Override
-	protected void onPreExecute() {
-		mProgress = new ProgressDialog(mActivity);
-		mProgress.setCancelable(false);
-		mProgress.setMessage("Getting user info ...");
-		mProgress.show();
-		super.onPreExecute();
+	public SelfInfoRequest( Context ctx) {
+		mActivity = ctx;
 	}
 
 	@Override
@@ -107,7 +98,6 @@ public class SelfInfoRequest extends AsyncTask<String, Integer, User> {
 
 	@Override
 	protected void onPostExecute(User result) {
-		mProgress.dismiss();
 		if (mListener != null)
 			mListener.onUserInfoFetched(result);
 		super.onPostExecute(result);

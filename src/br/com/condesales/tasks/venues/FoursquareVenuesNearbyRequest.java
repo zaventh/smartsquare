@@ -11,8 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.VenuesCriteria;
@@ -24,31 +23,23 @@ import com.google.gson.Gson;
 public class FoursquareVenuesNearbyRequest extends
 		AsyncTask<String, Integer, ArrayList<Venue>> {
 
-	private Activity mActivity;
-	private ProgressDialog mProgress;
+	private Context mActivity;
 	private FoursquareVenuesResquestListener mListener;
 	private VenuesCriteria mCriteria;
 
-	public FoursquareVenuesNearbyRequest(Activity activity,
+	public FoursquareVenuesNearbyRequest(Context activity,
 			FoursquareVenuesResquestListener listener, VenuesCriteria criteria) {
 		mActivity = activity;
 		mListener = listener;
 		mCriteria = criteria;
 	}
 
-	public FoursquareVenuesNearbyRequest(Activity activity, VenuesCriteria criteria) {
+	public FoursquareVenuesNearbyRequest(Context activity, VenuesCriteria criteria) {
 		mActivity = activity;
 		mCriteria = criteria;
 	}
 
-	@Override
-	protected void onPreExecute() {
-		mProgress = new ProgressDialog(mActivity);
-		mProgress.setCancelable(false);
-		mProgress.setMessage("Getting venues nearby ...");
-		mProgress.show();
-		super.onPreExecute();
-	}
+
 
 	@Override
 	protected ArrayList<Venue> doInBackground(String... params) {
@@ -108,7 +99,6 @@ public class FoursquareVenuesNearbyRequest extends
 
 	@Override
 	protected void onPostExecute(ArrayList<Venue> venues) {
-		mProgress.dismiss();
 		if (mListener != null)
 			mListener.onVenuesFetched(venues);
 		super.onPostExecute(venues);
