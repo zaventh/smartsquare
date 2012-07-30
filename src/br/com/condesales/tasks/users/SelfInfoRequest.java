@@ -27,7 +27,7 @@ public class SelfInfoRequest extends AsyncTask<String, Integer, User> {
 	private Context mActivity;
 	private UserInfoRequestListener mListener;
 
-	public SelfInfoRequest(Activity activity, UserInfoRequestListener listener) {
+	public SelfInfoRequest(Context activity, UserInfoRequestListener listener) {
 		mActivity = activity;
 		mListener = listener;
 	}

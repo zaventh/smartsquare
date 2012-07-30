@@ -14,11 +14,13 @@ import br.com.condesales.models.Venue;
 public class VenuImage extends ExtensionImage
 {
 	private final Context _ctx;
+	private final Venue _venue;
 
 	public VenuImage(Context ctx, Venue venue)
 	{
 		super(ctx);
 		_ctx = ctx;
+		_venue = venue;
 	}
 
 	/* (non-Javadoc)

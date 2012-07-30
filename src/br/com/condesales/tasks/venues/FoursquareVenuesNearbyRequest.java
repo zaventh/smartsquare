@@ -61,8 +61,8 @@ public class FoursquareVenuesNearbyRequest extends
 					+ mCriteria.getLocation().getLongitude()
 					+ "&llAcc="
 					+ mCriteria.getLocation().getAccuracy()
-					+ "&query="
-					+ mCriteria.getQuery()
+					//+ "&query="
+					//+ mCriteria.getQuery()
 					+ "&limit="
 					+ mCriteria.getQuantity()
 					+ "&intent="

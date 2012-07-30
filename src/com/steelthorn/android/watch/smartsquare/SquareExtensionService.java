@@ -13,11 +13,11 @@ import com.sonyericsson.extras.liveware.extension.util.registration.Registration
  */
 public class SquareExtensionService extends ExtensionService
 {
-	public static long ID = 0l;
+	public static final String ID = "com.steelthorn.android.smartextras.smartsquare.ID";
 
-	public SquareExtensionService(String extensionKey)
+	public SquareExtensionService()
 	{
-		super(extensionKey);
+		super(ID);
 	}
 
 	/* (non-Javadoc)

@@ -3,7 +3,6 @@ package br.com.condesales;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;

@@ -1,8 +1,7 @@
 package br.com.condesales;
 
-import java.net.URLEncoder;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.CheckInCriteria;
@@ -36,11 +35,11 @@ import br.com.condesales.tasks.venues.FoursquareVenuesNearbyRequest;
 public class EasyFoursquareAsync
 {
 
-	private Activity mActivity;
+	private Context mActivity;
 	private FoursquareDialog mDialog;
 	private String mAccessToken = "";
 
-	public EasyFoursquareAsync(Activity activity)
+	public EasyFoursquareAsync(Context activity)
 	{
 		mActivity = activity;
 	}
