@@ -3,6 +3,8 @@
  */
 package com.steelthorn.android.watch.smartsquare;
 
+import java.text.DecimalFormat;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
@@ -52,7 +54,15 @@ public class VenuImage extends ExtensionImage
 
 		int feet = Util.ConvertMetersToFeet(_venue.getLocation().getDistance());
 
-		txtDistance.setText(feet + "ft");
+		if (feet < 528)
+			txtDistance.setText(feet + "ft");
+		else
+		{
+			double miles = (double)feet / (double)5280;
+
+			DecimalFormat f = new DecimalFormat("0.#");
+			txtDistance.setText(f.format(miles) + "mi");
+		}
 
 		if (_imgBackground != null)
 		{
