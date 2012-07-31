@@ -6,11 +6,11 @@ package com.steelthorn.android.watch.smartsquare;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import br.com.condesales.models.Venue;
 
 import com.sonyericsson.extras.liveware.aef.control.Control;
-import com.sonyericsson.extras.liveware.extension.util.control.ControlExtension;
 
 /**
  * @author Jeff Mixon
@@ -22,7 +22,7 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 	private final Context _ctx;
 
 	private List<Venue> _venues;
-	private int _venueIndex = 0;
+	private int _venueIndex = -1;
 	private final ISmartSquarePresenter _presenter;
 
 	public SmartSquareControlExtension(Context context, String hostAppPackageName)
@@ -64,9 +64,16 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 
 	private void showVenueFromList(int index)
 	{
-		ExtensionImage img = new VenuImage(_ctx, _venues.get(index));
+		// TODO: Don't reload the image each time when swiping
+		//if (index == _venueIndex)
+		//	return;
+		
+		Venue v = _venues.get(index);
+		ExtensionImage img = new VenuImage(_ctx, v);
 		showBitmap(img);
 		_venueIndex = index;
+
+		_presenter.fetchVenueCategoryBitmap(v);
 	}
 
 	@Override
@@ -78,11 +85,31 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 			return;
 		}
 
-		if (direction == Control.Intents.SWIPE_DIRECTION_RIGHT)
+		if (direction == Control.Intents.SWIPE_DIRECTION_RIGHT) 
 			showVenueFromList(++_venueIndex > (_venues.size() - 1) ? _venues.size() - 1 : _venueIndex);
 		else if (direction == Control.Intents.SWIPE_DIRECTION_LEFT)
 			showVenueFromList(--_venueIndex < 0 ? 0 : _venueIndex);
 
 	}
 
+	@Override
+	public void onVenueCategoryIconRetrieved(Venue v, Bitmap b)
+	{
+		//Bitmap q = scaleCenterCrop(b, 200, 200);
+//		
+//		Bitmap q = Bitmap.createBitmap(b, 28, 28, 200, 200);
+//		
+//		Bitmap x = invertBitmap(q);
+//		
+//		x = makeBrightnessBitmap(x, -90);
+
+		if (_venues.get(_venueIndex).equals(v))
+		{
+			VenuImage vi = new VenuImage(_ctx, v);
+			vi.setBackgroundImage(b);
+			showBitmap(vi);
+		}
+	}
+	
+	
 }

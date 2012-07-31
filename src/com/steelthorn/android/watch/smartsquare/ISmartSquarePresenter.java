@@ -3,6 +3,8 @@
  */
 package com.steelthorn.android.watch.smartsquare;
 
+import br.com.condesales.models.Venue;
+
 /**
  * @author Jeff Mixon
  *
@@ -10,4 +12,6 @@ package com.steelthorn.android.watch.smartsquare;
 public interface ISmartSquarePresenter extends IBasePresenter<ISmartSquareControlView>
 {
 	public void requestNearbyVenues();
+	
+	public void fetchVenueCategoryBitmap(Venue v);
 }
