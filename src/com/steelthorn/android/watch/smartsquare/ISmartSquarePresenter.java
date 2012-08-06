@@ -14,4 +14,6 @@ public interface ISmartSquarePresenter extends IBasePresenter<ISmartSquareContro
 	public void requestNearbyVenues();
 	
 	public void fetchVenueCategoryBitmap(Venue v);
+	
+	public void requestCheckin(Venue v);
 }

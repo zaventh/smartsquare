@@ -68,7 +68,7 @@ class Util
 	{
 		stock = Util.centerCrop(stock, 200, 200);
 		stock = Util.invertBitmap(stock);
-		stock = Util.makeBrightnessBitmap(stock, -90);
+		stock = Util.makeBrightnessBitmap(stock, -80);
 		return stock;
 	}
 

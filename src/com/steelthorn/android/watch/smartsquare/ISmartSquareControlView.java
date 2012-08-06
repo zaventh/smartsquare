@@ -20,4 +20,6 @@ public interface ISmartSquareControlView extends IBaseView
 	void onNearbyVenuesReceived(List<Venue> venues);
 	
 	void onVenueCategoryIconRetrieved(Venue v, Bitmap b);
+	
+	void onCheckinResponse(Boolean success);
 }

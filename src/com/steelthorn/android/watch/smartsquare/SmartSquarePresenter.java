@@ -6,11 +6,16 @@ package com.steelthorn.android.watch.smartsquare;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.os.Looper;
 import android.util.Log;
 import br.com.condesales.EasyFoursquareAsync;
+import br.com.condesales.criterias.CheckInCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.criterias.VenuesCriteria.VenuesCriteriaIntent;
+import br.com.condesales.listeners.CheckInListener;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
+import br.com.condesales.models.Checkin;
 import br.com.condesales.models.Venue;
 
 /**
@@ -20,6 +25,9 @@ import br.com.condesales.models.Venue;
 public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView> implements ISmartSquarePresenter
 {
 	private static final String TAG = "SmartSquarePresenter";
+
+	private LocationValet _valet;
+	private Location _lastKnown;
 
 	public SmartSquarePresenter(ISmartSquareControlView view)
 	{
@@ -32,32 +40,58 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 	@Override
 	public void requestNearbyVenues()
 	{
-		EasyFoursquareAsync api = new EasyFoursquareAsync(getView().getContext());
-
-		VenuesCriteria crit = new VenuesCriteria();
-		crit.getLocation().setLatitude(37.779449);
-		crit.getLocation().setLongitude(-122.392073);
-		crit.setIntent(VenuesCriteriaIntent.CHECKIN);
-
-		api.getVenuesNearby(new FoursquareVenuesResquestListener()
+		new Thread()
 		{
-
-			@Override
-			public void onError(String errorMsg)
+			public void run()
 			{
-				Log.e(TAG, "Foursquare API returned an error: " + errorMsg);
-				if (getView() != null)
-					getView().onError(new Exception(errorMsg));
-			}
+				Looper.prepare();
+				_valet = new LocationValet(getView().getContext(), new LocationValet.ILocationValetListener()
+				{
 
-			@Override
-			public void onVenuesFetched(ArrayList<Venue> venues)
-			{
-				if (getView() != null)
-					getView().onNearbyVenuesReceived(venues);
+					public void onBetterLocationFound(Location l)
+					{
+						if (l.hasAccuracy() && l.getAccuracy() <= 200)
+						{
+							_lastKnown = l;
+							//if (l.getAccuracy() <= 20)
+							_valet.stopAquire();
+							Looper.myLooper().quit();
 
+							EasyFoursquareAsync api = new EasyFoursquareAsync(getView().getContext());
+
+							VenuesCriteria crit = new VenuesCriteria();
+							crit.setLocation(l);
+							crit.setIntent(VenuesCriteriaIntent.CHECKIN);
+
+							api.getVenuesNearby(new FoursquareVenuesResquestListener()
+							{
+
+								@Override
+								public void onError(String errorMsg)
+								{
+									Log.e(TAG, "Foursquare API returned an error: " + errorMsg);
+									if (getView() != null)
+										getView().onError(new Exception(errorMsg));
+								}
+
+								@Override
+								public void onVenuesFetched(ArrayList<Venue> venues)
+								{
+									if (getView() != null)
+										getView().onNearbyVenuesReceived(venues);
+
+								}
+							}, crit);
+						}
+					}
+				});
+
+				_valet.startAquire(false);
+
+				Looper.loop();
 			}
-		}, crit);
+		}.start();
+
 	}
 
 	@Override
@@ -100,5 +134,43 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 				Log.w(TAG, "An error occurred downloading the icon: " + e);
 			}
 		}
+	}
+
+	@Override
+	public void requestCheckin(final Venue v)
+	{
+		new Thread()
+		{
+			public void start()
+			{
+				EasyFoursquareAsync api = new EasyFoursquareAsync(getView().getContext());
+
+				CheckInCriteria crit = new CheckInCriteria();
+				crit.setVenueId(v.getId());
+				crit.setLocation(_lastKnown);
+
+				api.checkIn(new CheckInListener()
+				{
+
+					@Override
+					public void onError(String errorMsg)
+					{
+						Log.e(TAG, errorMsg);
+						//getView().onError(new Exception(errorMsg));
+						getView().onCheckinResponse(false);
+
+					}
+
+					@Override
+					public void onCheckInDone(Checkin checkin)
+					{
+						Log.d(TAG, "onCheckInDone");
+
+						getView().onCheckinResponse(true);
+					}
+				}, crit);
+			}
+		}.start();
+
 	}
 }
