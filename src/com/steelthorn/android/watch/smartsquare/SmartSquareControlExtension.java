@@ -28,6 +28,8 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 	private int _venueIndex = -1;
 	private final ISmartSquarePresenter _presenter;
 
+	private VenuImage _currentVenueImage;
+
 	public SmartSquareControlExtension(Context context, String hostAppPackageName)
 	{
 		super(context, hostAppPackageName);
@@ -43,7 +45,7 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 
 		showBitmap(new GenericTextImage(_ctx, "Searching..."));
 		_presenter.requestNearbyVenues();
-		setScreenState(Control.Intents.SCREEN_STATE_DIM);
+		setScreenState(Control.Intents.SCREEN_STATE_ON);
 	}
 
 	@Override
@@ -85,8 +87,8 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 		//	return;
 
 		Venue v = _venues.get(index);
-		ExtensionImage img = new VenuImage(_ctx, v);
-		showBitmap(img);
+		_currentVenueImage = new VenuImage(_ctx, v);
+		showBitmap(_currentVenueImage);
 		_venueIndex = index;
 
 		_presenter.fetchVenueCategoryBitmap(v);
@@ -123,8 +125,8 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 				Log.d(TAG, "Initial long press. Sending event on timestamp " + event.getTimeStamp());
 				_lastLongPress = event.getTimeStamp();
 				showBitmap(new GenericTextImage(_ctx, "Checking in..."));
-				
-				setScreenState(Control.Intents.SCREEN_STATE_DIM);
+
+				setScreenState(Control.Intents.SCREEN_STATE_ON);
 				_presenter.requestCheckin(_venues.get(_venueIndex));
 			}
 		}
@@ -143,9 +145,9 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 
 		if (_venues.get(_venueIndex).equals(v))
 		{
-			VenuImage vi = new VenuImage(_ctx, v);
-			vi.setBackgroundImage(b);
-			showBitmap(vi);
+			//_currentVenueImage = new VenuImage(_ctx, v);
+			_currentVenueImage.setBackgroundImage(b);
+			showBitmap(_currentVenueImage);
 		}
 	}
 
@@ -154,15 +156,15 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 	{
 		Log.d(TAG, "onCheckinResponse" + success);
 		setScreenState(Control.Intents.SCREEN_STATE_AUTO);
-		
+
 		if (success)
 		{
-			showBitmap(new GenericTextImage(_ctx, "Check in successful."));
+			showBitmap(new VenueDetailImage(_ctx, _venues.get(_venueIndex), _currentVenueImage.getBitmap()));
 		}
 		else
 			showBitmap(new GenericTextImage(_ctx, "Check in failed."));
 
-		new CheckInDelayTask().execute((Void)null);
+		new CheckInDelayTask().execute((Void) null);
 
 	}
 

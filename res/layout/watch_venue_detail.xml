@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/smart_watch_control_width"
+    android:layout_height="@dimen/smart_watch_control_height"
+    tools:context=".MainActivity"
+    tools:ignore="PxUsage,HardcodedText,UseCompoundDrawables,ContentDescription" >
+
+    <ImageView
+        android:id="@+id/imgBackground"
+        android:layout_width="@dimen/smart_watch_control_width"
+        android:layout_height="@dimen/smart_watch_control_height"
+        android:layout_centerInParent="true"
+        android:src="@drawable/default_bg" />
+
+    <com.sonyericsson.extras.liveware.extension.util.AefTextView
+        android:id="@+id/txtMessage1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bam! You&apos;re"
+        android:textColor="@color/smart_watch_text_color_grey"
+        android:layout_centerHorizontal="true"
+        android:textSize="13px" />
+
+    <com.sonyericsson.extras.liveware.extension.util.AefTextView
+        android:id="@+id/txtMessage2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="checked in."
+        android:textColor="@color/smart_watch_text_color_grey"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/txtMessage1"
+        android:textSize="13px" />
+
+    <com.sonyericsson.extras.liveware.extension.util.AefTextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Starbucks"
+        android:textColor="@color/smart_watch_text_color_grey"
+        android:textSize="16px"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/hereNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="4px"
+        android:layout_marginLeft="8px"
+        android:gravity="bottom" >
+
+        <ImageView
+            android:layout_width="15px"
+            android:layout_height="15px"
+            android:src="@drawable/person_icon" />
+
+        <TextView
+            android:id="@+id/txtHereNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-2px"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:text="4"
+            android:textColor="@color/smart_watch_text_color_grey"
+            android:textSize="14px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/checkedIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/hereNow"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="-2px"
+        android:layout_marginRight="8px" >
+
+        <ImageView
+            android:layout_width="15px"
+            android:layout_height="15px"
+            android:src="@drawable/star_icon" />
+
+        <TextView
+            android:id="@+id/txtCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-2px"
+            android:gravity="bottom"
+            android:includeFontPadding="false"
+            android:text="8"
+            android:textColor="@color/smart_watch_text_color_grey"
+            android:textSize="14px" />
+    </LinearLayout>
+
+</RelativeLayout>
