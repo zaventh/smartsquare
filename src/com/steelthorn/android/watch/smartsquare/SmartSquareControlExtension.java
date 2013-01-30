@@ -155,9 +155,10 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 			showBitmap(new VenueDetailImage(_ctx, _venues.get(_venueIndex), _currentVenueImage.getBitmap()));
 		}
 		else
+		{
 			showBitmap(new GenericTextImage(_ctx, "Check in failed."));
-
-		new CheckInDelayTask().execute((Void) null);
+			new CheckInDelayTask().execute((Void) null);
+		}
 
 	}
 
