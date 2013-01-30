@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.os.Build;
 import android.os.Looper;
 import android.util.Log;
 import br.com.condesales.EasyFoursquareAsync;
@@ -52,7 +53,7 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 
 					public void onBetterLocationFound(Location l)
 					{
-						if (l.hasAccuracy() && l.getAccuracy() <= 200)
+						if (Build.FINGERPRINT.startsWith("generic") || (l.hasAccuracy() && l.getAccuracy() <= 200))
 						{
 							_lastKnown = l;
 							//if (l.getAccuracy() <= 20)
@@ -136,9 +137,10 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 			catch (FileNotFoundException fe)
 			{
 				Log.w(TAG, "Defined category icon is missing. Trying the default icon.");
-
+				
+				//https://foursquare.com/img/categories_v2/food/caribbean_
 				String prefix = _venue.getCategories().get(0).getIcon().getPrefix();
-				String retryUri = prefix.substring(0, prefix.lastIndexOf('/') + 1) + "_256.png";
+				String retryUri = prefix.substring(0, prefix.lastIndexOf('/') + 1) + "default_256.png";
 
 				try
 				{
