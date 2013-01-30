@@ -16,6 +16,7 @@ import br.com.condesales.criterias.CheckInCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.criterias.VenuesCriteria.VenuesCriteriaIntent;
 import br.com.condesales.listeners.CheckInListener;
+import br.com.condesales.listeners.FoursquareVenueDetailsResquestListener;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
 import br.com.condesales.models.Checkin;
 import br.com.condesales.models.Venue;
@@ -200,5 +201,28 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 			}
 		}.start();
 
+	}
+
+	@Override
+	public void requestVenueRefresh(final Venue v)
+	{
+		EasyFoursquareAsync api = new EasyFoursquareAsync(getView().getContext());
+		
+		api.getVenueDetail(v.getId(), new FoursquareVenueDetailsResquestListener()
+		{
+			
+			@Override
+			public void onError(String errorMsg)
+			{
+				getView().onError(new Exception(errorMsg));
+				
+			}
+			
+			@Override
+			public void onVenueDetailFetched(Venue venues)
+			{
+				getView().onVenueRefreshed(v, venues);
+			}
+		});
 	}
 }
