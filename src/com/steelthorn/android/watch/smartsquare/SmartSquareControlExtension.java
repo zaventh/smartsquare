@@ -21,7 +21,6 @@ import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent
 public class SmartSquareControlExtension extends BaseControlExtensionView implements ISmartSquareControlView
 {
 	private static final String TAG = "SmartSquareControlExtension";
-	
 
 	private List<Venue> _venues;
 	private int _venueIndex = -1;
@@ -117,10 +116,14 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 			{
 				Log.d(TAG, "Initial long press. Sending event on timestamp " + event.getTimeStamp());
 				_lastLongPress = event.getTimeStamp();
-				showBitmap(new GenericTextImage(_ctx, "Checking in..."));
 
-				setScreenState(Control.Intents.SCREEN_STATE_ON);
-				_presenter.requestCheckin(_venues.get(_venueIndex));
+				if (_venueIndex >= 0 && _venues.size() > 0)
+				{
+					showBitmap(new GenericTextImage(_ctx, "Checking in..."));
+
+					setScreenState(Control.Intents.SCREEN_STATE_ON);
+					_presenter.requestCheckin(_venues.get(_venueIndex));
+				}
 			}
 		}
 	}
@@ -155,7 +158,9 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 			showBitmap(new VenueDetailImage(_ctx, _venues.get(_venueIndex), _currentVenueImage.getBitmap()));
 		}
 		else
+		{
 			showBitmap(new GenericTextImage(_ctx, "Check in failed."));
+		}
 
 		new CheckInDelayTask().execute((Void) null);
 
@@ -173,18 +178,11 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 			}
 			catch (InterruptedException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+
+			_presenter.requestVenueRefresh(_venues.get(_venueIndex));
+
 			return (Void) null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result)
-		{
-			super.onPostExecute(result);
-
-			showVenueFromList(_venueIndex);
 		}
 
 	}
@@ -193,6 +191,30 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 	public void onNotFoursquareAuthenticated()
 	{
 		showBitmap(new GenericTextImage(_ctx, "Please log in first."));
-		
+
+	}
+
+	@Override
+	public void onVenueRefreshed(Venue original, Venue refreshed)
+	{
+		Log.d(TAG, "onVenueRefreshed");
+
+		int index = _venues.indexOf(original);
+
+		if (index < 0)
+		{
+			Log.w(TAG, "Refreshed venue no longer in list");
+			return;
+		}
+
+		Venue v = _venues.get(index);
+		v.setBeenHere(refreshed.getBeenHere());
+		v.setHereNow(refreshed.getHereNow());
+		v.setStats(refreshed.getStats());
+
+		//_venues.set(index, refreshed);
+
+		if (_venueIndex == index)
+			showVenueFromList(index);
 	}
 }

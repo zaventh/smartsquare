@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.steelthorn.android.watch.smartsquare"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0.0" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -14,7 +14,8 @@
 
     <application
         android:icon="@drawable/squareandcompass"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        android:allowBackup="true">
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >

@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.acl.LastOwnerException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -39,6 +40,14 @@ class Util
 	{
 		String filename = uri.substring(uri.lastIndexOf('/') + 1);
 
+		if (filename.startsWith("default"))
+		{
+			String cutoff = uri.substring(0,uri.lastIndexOf('/')-1);
+			String cat = cutoff.substring(cutoff.lastIndexOf('/')+1);
+			
+			filename = cat + filename;
+		}
+		
 		Log.d(TAG, "Checking if file is cached: " + filename);
 
 		if (!doesCacheFileExist(ctx, filename))

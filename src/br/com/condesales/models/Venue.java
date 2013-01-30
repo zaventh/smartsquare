@@ -51,6 +51,11 @@ public class Venue {
 	public HereNow getHereNow() {
 		return hereNow;
 	}
+	
+	public void setHereNow(HereNow value)
+	{
+		hereNow = value;
+	}
 
 	public long getCreatedAt() {
 		return createdAt;
@@ -83,9 +88,19 @@ public class Venue {
 	public Statistics getStats() {
 		return stats;
 	}
+	
+	public void setStats(Statistics value)
+	{
+		stats = value;
+	}
 
 	public HereNow getBeenHere() {
 		return beenHere;
+	}
+	
+	public void setBeenHere(HereNow value)
+	{
+		beenHere = value;
 	}
 
 }
