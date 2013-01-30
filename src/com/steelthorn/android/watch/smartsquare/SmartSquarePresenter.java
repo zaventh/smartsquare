@@ -3,6 +3,7 @@
  */
 package com.steelthorn.android.watch.smartsquare;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
@@ -45,6 +46,7 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 			public void run()
 			{
 				Looper.prepare();
+				
 				_valet = new LocationValet(getView().getContext(), new LocationValet.ILocationValetListener()
 				{
 
@@ -58,6 +60,13 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 							Looper.myLooper().quit();
 
 							EasyFoursquareAsync api = new EasyFoursquareAsync(getView().getContext());
+							
+							if (!api.hasAccessToken())
+							{
+								getView().onNotFoursquareAuthenticated();
+								return;
+							}
+							
 
 							VenuesCriteria crit = new VenuesCriteria();
 							crit.setLocation(l);
@@ -118,21 +127,38 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 
 			Log.d(TAG, "Downloading " + uri);
 
+			Bitmap b = null;
 			try
 			{
-				Bitmap b = Util.downloadImageWithCaching(getView().getContext(), uri);
+				b = Util.downloadImageWithCaching(getView().getContext(), uri);
 
-				if (b == null)
-					return;
+			}
+			catch (FileNotFoundException fe)
+			{
+				Log.w(TAG, "Defined category icon is missing. Trying the default icon.");
 
-				if (getView() != null)
-					getView().onVenueCategoryIconRetrieved(_venue, b);
+				String prefix = _venue.getCategories().get(0).getIcon().getPrefix();
+				String retryUri = prefix.substring(0, prefix.lastIndexOf('/') + 1) + "_256.png";
 
+				try
+				{
+					b = Util.downloadImageWithCaching(getView().getContext(), retryUri);
+				}
+				catch (Exception e)
+				{
+					Log.w(TAG, "An error occurred retrying the icon download: " + e);
+				}
 			}
 			catch (Exception e)
 			{
 				Log.w(TAG, "An error occurred downloading the icon: " + e);
 			}
+
+			if (b == null)
+				return;
+
+			if (getView() != null)
+				getView().onVenueCategoryIconRetrieved(_venue, b);
 		}
 	}
 

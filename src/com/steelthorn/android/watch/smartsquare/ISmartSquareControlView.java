@@ -22,4 +22,6 @@ public interface ISmartSquareControlView extends IBaseView
 	void onVenueCategoryIconRetrieved(Venue v, Bitmap b);
 	
 	void onCheckinResponse(Boolean success);
+	
+	void onNotFoursquareAuthenticated();
 }

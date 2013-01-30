@@ -19,8 +19,8 @@ public class RegistrationInfo extends RegistrationInformation
 	@Override
 	public ContentValues getExtensionRegistrationConfiguration()
 	{
-		String iconHostapp = ExtensionUtils.getUriString(_ctx, R.drawable.ic_launcher);
-		String iconExtension = ExtensionUtils.getUriString(_ctx, R.drawable.ic_launcher);
+		String iconHostapp = ExtensionUtils.getUriString(_ctx, R.drawable.squareandcompass);
+		String iconExtension = ExtensionUtils.getUriString(_ctx, R.drawable.squareandcompass);
 
 		ContentValues values = new ContentValues();
 
@@ -63,6 +63,7 @@ public class RegistrationInfo extends RegistrationInformation
 	@Override
 	public boolean isDisplaySizeSupported(int width, int height)
 	{
+		//return true;
 		return (width == _ctx.getResources().getDimensionPixelSize(R.dimen.smart_watch_control_width) && height == _ctx.getResources().getDimensionPixelSize(R.dimen.smart_watch_control_height));
 	}
 }

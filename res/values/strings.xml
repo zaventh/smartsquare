@@ -1,9 +1,11 @@
 <resources>
 
-    <string name="app_name">Smart Square</string>
+    <string name="app_name">SmartSquare</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="configuration_text">config</string>
+    <string name="title_activity_main">SmartSquare</string>
+    <string name="configuration_text">Foursquare Login</string>
     <string name="extension_name">SmartSquare</string>
+    <string name="intro_text">You will need to log in to your FourSquare account connect SmartSquare before you can use the app.</string>
+    <string name="success_text">SmartSquare is properly connected to your FourSquare account. You can now use the app from your watch!</string>
 </resources>

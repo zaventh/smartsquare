@@ -160,7 +160,7 @@ public class EasyFoursquareAsync
 		request.execute(getAccessToken());
 	}
 
-	private boolean hasAccessToken()
+	public boolean hasAccessToken()
 	{
 		String token = getAccessToken();
 		return !token.equals("");

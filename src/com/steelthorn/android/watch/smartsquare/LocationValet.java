@@ -3,15 +3,15 @@ package com.steelthorn.android.watch.smartsquare;
 import java.lang.ref.WeakReference;
 
 import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 public class LocationValet
 {
-	private final WeakReference<Context> _ctx;
+	//private final WeakReference<Context> _ctx;
 	private final WeakReference<ILocationValetListener> _valetListener;
 
 	private final LocationManager _locationManager;
@@ -21,7 +21,7 @@ public class LocationValet
 
 	public LocationValet(Context ctx, ILocationValetListener listener)
 	{
-		_ctx = new WeakReference<Context>(ctx);
+		//_ctx = new WeakReference<Context>(ctx);
 		_valetListener = new WeakReference<LocationValet.ILocationValetListener>(listener);
 
 		_locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
@@ -30,20 +30,20 @@ public class LocationValet
 
 	public Boolean startAquire(Boolean immediateResult)
 	{
-//		Criteria criteria = new Criteria();
-//		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-//		criteria.setAltitudeRequired(false);
-//		criteria.setBearingRequired(false);
-//		criteria.setCostAllowed(true);
-//		criteria.setPowerRequirement(Criteria.POWER_LOW);
-//
-//		// Best provider
-//		String provider = _locationManager.getBestProvider(criteria, true);
-//
-//		if (provider == null || provider.equals(""))
-//		{
-//			return false;
-//		}
+		//		Criteria criteria = new Criteria();
+		//		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		//		criteria.setAltitudeRequired(false);
+		//		criteria.setBearingRequired(false);
+		//		criteria.setCostAllowed(true);
+		//		criteria.setPowerRequirement(Criteria.POWER_LOW);
+		//
+		//		// Best provider
+		//		String provider = _locationManager.getBestProvider(criteria, true);
+		//
+		//		if (provider == null || provider.equals(""))
+		//		{
+		//			return false;
+		//		}
 
 		if (immediateResult)
 		{
@@ -51,7 +51,11 @@ public class LocationValet
 		}
 
 		//_locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, _listener);
-		_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 0, _listener);
+
+		if (!Build.FINGERPRINT.startsWith("generic"))
+			_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 0, _listener);
+		else
+			_locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, _listener);
 
 		return true;
 	}
@@ -59,7 +63,7 @@ public class LocationValet
 	public void stopAquire()
 	{
 		_locationManager.removeUpdates(_listener);
-		
+
 	}
 
 	private void updateValetListeners(Location l)

@@ -12,7 +12,6 @@ import android.util.Log;
 import br.com.condesales.models.Venue;
 
 import com.sonyericsson.extras.liveware.aef.control.Control;
-import com.sonyericsson.extras.liveware.extension.util.control.ControlExtension;
 import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent;
 
 /**
@@ -22,7 +21,7 @@ import com.sonyericsson.extras.liveware.extension.util.control.ControlTouchEvent
 public class SmartSquareControlExtension extends BaseControlExtensionView implements ISmartSquareControlView
 {
 	private static final String TAG = "SmartSquareControlExtension";
-	private final Context _ctx;
+	
 
 	private List<Venue> _venues;
 	private int _venueIndex = -1;
@@ -34,7 +33,7 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 	{
 		super(context, hostAppPackageName);
 
-		_ctx = context;
+		//_ctx = context;
 		_presenter = new SmartSquarePresenter(this);
 	}
 
@@ -55,12 +54,6 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 
 		if (_venues != null && _venues.size() > 0)
 			showVenueFromList(_venueIndex);
-	}
-
-	protected void showBitmap(ExtensionImage image)
-	{
-		if (image != null)
-			showBitmap(image.getBitmap());
 	}
 
 	@Override
@@ -194,5 +187,12 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 			showVenueFromList(_venueIndex);
 		}
 
+	}
+
+	@Override
+	public void onNotFoursquareAuthenticated()
+	{
+		showBitmap(new GenericTextImage(_ctx, "Please log in first."));
+		
 	}
 }

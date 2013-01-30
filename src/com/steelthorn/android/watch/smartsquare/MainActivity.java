@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.TextView;
 import br.com.condesales.EasyFoursquareAsync;
 import br.com.condesales.listeners.AccessTokenRequestListener;
 
@@ -28,7 +29,7 @@ public class MainActivity extends Activity
 		return true;
 	}
 
-	private static class FoursquareAccessCallback implements AccessTokenRequestListener
+	private class FoursquareAccessCallback implements AccessTokenRequestListener
 	{
 		@Override
 		public void onError(String errorMsg)
@@ -41,6 +42,9 @@ public class MainActivity extends Activity
 		{
 			Log.i(TAG, "Successfully authenticated to foursquare");
 			Log.i(TAG, "Key: " + accessToken);
+			
+			TextView tv = (TextView)findViewById(R.id.txtIntro);
+			tv.setText(R.string.success_text);
 		}
 	}
 }
