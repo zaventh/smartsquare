@@ -57,7 +57,6 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 						if (Build.FINGERPRINT.startsWith("generic") || (l.hasAccuracy() && l.getAccuracy() <= 200))
 						{
 							_lastKnown = l;
-							//if (l.getAccuracy() <= 20)
 							_valet.stopAquire();
 							Looper.myLooper().quit();
 
@@ -185,7 +184,6 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 					public void onError(String errorMsg)
 					{
 						Log.e(TAG, errorMsg);
-						//getView().onError(new Exception(errorMsg));
 						getView().onCheckinResponse(false);
 
 					}

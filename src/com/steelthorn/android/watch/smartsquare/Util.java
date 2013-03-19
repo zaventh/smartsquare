@@ -10,16 +10,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.acl.LastOwnerException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 /**
@@ -51,7 +50,6 @@ class Util
 		Log.d(TAG, "Checking if file is cached: " + filename);
 
 		if (!doesCacheFileExist(ctx, filename))
-		//if (true)
 		{
 			Log.d(TAG, "No cache exists. Downloading.");
 			URL url = new URL(uri);
@@ -166,8 +164,6 @@ class Util
 
 	public static Bitmap centerCrop(Bitmap b, int newWidth, int newHeight)
 	{
-		//Bitmap q = Bitmap.createBitmap(b, 28, 28, 200, 200);
-
 		Bitmap cropped = Bitmap.createBitmap(b, (b.getWidth() - newWidth) / 2, (b.getHeight() - newHeight) / 2, newWidth, newHeight);
 		b.recycle();
 		return cropped;

@@ -30,27 +30,10 @@ public class LocationValet
 
 	public Boolean startAquire(Boolean immediateResult)
 	{
-		//		Criteria criteria = new Criteria();
-		//		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		//		criteria.setAltitudeRequired(false);
-		//		criteria.setBearingRequired(false);
-		//		criteria.setCostAllowed(true);
-		//		criteria.setPowerRequirement(Criteria.POWER_LOW);
-		//
-		//		// Best provider
-		//		String provider = _locationManager.getBestProvider(criteria, true);
-		//
-		//		if (provider == null || provider.equals(""))
-		//		{
-		//			return false;
-		//		}
-
 		if (immediateResult)
 		{
 			updateValetListeners(_locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
 		}
-
-		//_locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, _listener);
 
 		if (!Build.FINGERPRINT.startsWith("generic"))
 			_locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 0, _listener);
@@ -89,22 +72,16 @@ public class LocationValet
 		@Override
 		public void onProviderDisabled(String provider)
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onProviderEnabled(String provider)
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras)
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 	}

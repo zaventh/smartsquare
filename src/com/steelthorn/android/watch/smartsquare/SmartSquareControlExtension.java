@@ -32,7 +32,6 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 	{
 		super(context, hostAppPackageName);
 
-		//_ctx = context;
 		_presenter = new SmartSquarePresenter(this);
 	}
 
@@ -74,10 +73,6 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 
 	private void showVenueFromList(int index)
 	{
-		// TODO: Don't reload the image each time when swiping
-		//if (index == _venueIndex)
-		//	return;
-
 		Venue v = _venues.get(index);
 		_currentVenueImage = new VenuImage(_ctx, v);
 		showBitmap(_currentVenueImage);
@@ -131,17 +126,8 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 	@Override
 	public void onVenueCategoryIconRetrieved(Venue v, Bitmap b)
 	{
-		//Bitmap q = scaleCenterCrop(b, 200, 200);
-		//		
-		//		Bitmap q = Bitmap.createBitmap(b, 28, 28, 200, 200);
-		//		
-		//		Bitmap x = invertBitmap(q);
-		//		
-		//		x = makeBrightnessBitmap(x, -90);
-
 		if (_venues.get(_venueIndex).equals(v))
 		{
-			//_currentVenueImage = new VenuImage(_ctx, v);
 			_currentVenueImage.setBackgroundImage(b);
 			showBitmap(_currentVenueImage);
 		}
@@ -211,8 +197,6 @@ public class SmartSquareControlExtension extends BaseControlExtensionView implem
 		v.setBeenHere(refreshed.getBeenHere());
 		v.setHereNow(refreshed.getHereNow());
 		v.setStats(refreshed.getStats());
-
-		//_venues.set(index, refreshed);
 
 		if (_venueIndex == index)
 			showVenueFromList(index);
