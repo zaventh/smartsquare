@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013 Jeff Mixon.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v2.0
+ * (or any later version, at your option) which accompanies this distribution,
+ * and is available at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * Contributors:
+ *     Jeff Mixon - initial public release
+ ******************************************************************************/
 /**
  * 
  */
@@ -57,7 +67,6 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 						if (Build.FINGERPRINT.startsWith("generic") || (l.hasAccuracy() && l.getAccuracy() <= 200))
 						{
 							_lastKnown = l;
-							//if (l.getAccuracy() <= 20)
 							_valet.stopAquire();
 							Looper.myLooper().quit();
 
@@ -185,7 +194,6 @@ public class SmartSquarePresenter extends BasePresenter<ISmartSquareControlView>
 					public void onError(String errorMsg)
 					{
 						Log.e(TAG, errorMsg);
-						//getView().onError(new Exception(errorMsg));
 						getView().onCheckinResponse(false);
 
 					}
