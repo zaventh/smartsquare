@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 import br.com.condesales.EasyFoursquareAsync;
+import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.listeners.AccessTokenRequestListener;
 
 public class MainActivity extends Activity
@@ -27,6 +28,11 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		// This is kind of a lame, but requires the smallest amount of modification of the original library
+		// TODO: Your 4sq app keys here
+		FoursquareConstants.CLIENT_ID = "YOUR_CLIENT_ID";
+		FoursquareConstants.CLIENT_SECRET = "YOUR_CLIENT_SECRET";
 		
 		EasyFoursquareAsync fsq = new EasyFoursquareAsync(this);
 		fsq.requestAccess(new FoursquareAccessCallback());
